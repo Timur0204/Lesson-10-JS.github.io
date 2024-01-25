@@ -3,8 +3,8 @@
   const url = 'https://fakestoreapi.com/products';
 
   let main = document.querySelector('main.row');
-  let firstInput = document.getElementById('firstInput');
-  let secondInput = document.getElementById('secondInput');
+  let firstBtn = document.getElementById('firstBtn');
+  let secondBtn = document.getElementById('secondBtn');
   
   let data = await fetch (url);
   data = await data.json();
@@ -24,36 +24,21 @@
         </div>
     `).join('');
   }
-  
+
   function sortByPrice(order) {
-      data.sort((a, b) => {
-          if (order === 'asc') {
-              return a.price - b.price;
-          } else {
-              return b.price - a.price;
-          }
-      });
-      updateCards();
-  }
-  
-  firstInput.addEventListener('change', function () {
-      if (this.checked) {
-          sortByPrice('asc');
-      } else {
-          data = [...originalData];
-          updateCards();
-      }
-  });
-  
-  secondInput.addEventListener('change', function () {
-      if (this.checked) {
-          sortByPrice('desc');
-      } else {
-          data = [...originalData];
-          updateCards();
-      }
-  });
-  
-  updateCards();
+    data.sort((a, b) => (order === 'asc') ? a.price - b.price : b.price - a.price);
+    updateCards();
+}
+
+function resetOrder() {
+    data = [...originalData];
+    updateCards();
+}
+
+firstBtn.addEventListener('click', () => sortByPrice('asc'));
+secondBtn.addEventListener('click', () => sortByPrice('desc'));
+lastBtn.addEventListener('click', resetOrder);
+
+updateCards();
   
   
